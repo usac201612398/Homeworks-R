@@ -1,0 +1,20 @@
+```{r}
+Fila_a <- c(176.36,181.74,172.05,196.49,179.26)
+Fila_b <- c(185.76,164.28,176.21,185.14,175.92)
+Fila_c <- c(190.31,161.57,199.61,175.44,191.15)
+Fila_d <- c(172.28,167.19,187.28,165.95,186.47)
+Fila_e <- c(199.93,198.04,165.39,162.11,168.07)
+
+Join_All <- c(Fila_a,Fila_b,Fila_c,Fila_d,Fila_e)
+M_Pesos <- matrix(Join_All,ncol=5,byrow=TRUE)
+Column_names <- c("Enero","Febrero","Marzo","Abril","Mayo")
+Line_names <- c("Jorge","Roberto","Eduardo","Luis","Ernesto")
+colnames(M_Pesos)<-Column_names
+rownames(M_Pesos)<-Line_names 
+Media_months <- (colSums(M_Pesos)/length(Column_names))
+M_Pesos_V2 <- rbind(M_Pesos,Media_months)
+Media_names <- (rowSums(M_Pesos_V2)/length(Line_names))
+M_Pesos_V3 <- cbind(M_Pesos_V2,Media_names)
+M_Pesos_V3
+```
+
