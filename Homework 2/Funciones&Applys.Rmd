@@ -1,0 +1,78 @@
+BRANDON RENE PORTILLO GONZALEZ | 99901994
+
+Funciones 
+
+Una función es una es un bloque de código que nos permite obtener un resultado o una respuesta a partir de realizar diferentes procesos lógicos o calculos matematicos ya sea con qaeEue se definan y empleen parametros de entrada o no. La idea misma de utilizar funciones en la lógica de programación es simplificar y representar de una mejor manera las definiciones para un proyecto.
+
+El siguiente ejemplo nos muestra cual es la estructura correspondiente de una función en el lenguaje R.
+
+my_sum <- function(a, b) {
+  the_sum <- a + b
+  return(the_sum)
+}
+
+```{r}
+fahr_to_kelvin <- function(temp) {
+  kelvin <- ((temp - 32) * (5 / 9)) + 273.15
+  return(kelvin)
+}
+
+
+fahr_to_kelvin(0)
+```
+
+Las funciones en R casi siempre hacen copias de los datos para operar dentro del cuerpo de una función. Cuando modificamos un parametro dentro de la función estamos modificando la copia del dataset gapminder almacenado en dicho parametro, y no la variable original que asignamos como el primer argumento.
+
+Esto hace la escritura del código mucho más segura: es seguro que cualquier cambio realizado dentro del cuerpo de la función, se mantendrá dentro de la función.
+
+Familia Apply
+
+Funciones apply: son funciones especiales diseñadas para dataframes, listas, matrices o colecciones y cuyo resultado depende de el tipo de dato que reciba en su entrada, indicando si se debe aplicar especificamente a fila o columna.
+
+Tienen la forma:
+
+apply(x, MARGIN, FUN)
+# x : matriz, dataframe, lista o vector.
+# MARGIN: 1 para operar sobre las filas y 2 para operar sobre las columnas.
+# FUN: Función que se aplica sobre filas o columnas.
+
+```{r}
+df = data.frame("NOMBRES" = c("Luis","Roberto","Berly","Joaquin","Sahedi", "Brandon"),
+                "PUESTO_LABORAL" = c("Contabilidad", "Produccion", "RRHH", "Gerencia", "Gerencia", "Contabilidad"),
+                "SALARIO_DEVENGADO" = c(2500,5000,3500,10000,7500,3800),
+                "DIAS_LABORALES" = c(30,30,20,30,20,20))
+df
+```
+```{r}
+apply(df[,c(3,4)],2,mean)
+```
+La función lapply esta especializada para listas y la diferencia con la función apply es que esta nos devuelve una lista.
+
+Tienen la forma: lapply(x, FUN)
+# x : matriz, dataframe, lista o vector.
+# FUN: Función que se aplica sobre filas o columnas.
+
+```{r}
+lapply(df[,c(3,4)],mean)
+```
+La función sapply también se puede realizar a listas y el resultado que obtenemos es un vector.
+
+Tiene la forma: sapply(x, FUN)
+# x : matriz, dataframe, lista o vector.
+# FUN: Función que se aplica sobre filas o columnas.
+
+```{r}
+sapply(df[,c(3,4)],mean)
+```
+
+La función tapply son funciones para aplicar a datos agrupados.
+
+Tiene la forma: tapply(x,  INDEX,  FUN)
+# x : matriz, dataframe, lista o vector.
+# INDEX: lista de categorías a agrupar.
+# FUN: Función que se aplica sobre filas o columnas.
+
+```{r}
+tapply(df$SALARIO_DEVENGADO,df$PUESTO_LABORAL,mean)
+```
+
