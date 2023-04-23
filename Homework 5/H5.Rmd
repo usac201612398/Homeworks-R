@@ -1,0 +1,71 @@
+```{r}
+library(tidyverse)
+library(dplyr)
+library(tidyr)
+
+answers <- read_csv('answers.csv')
+question_tags <- read_csv('question_tags.csv')
+questions <- read_csv('questions.csv')
+tags <- read_csv('tags.csv')
+
+#1.1
+questions %>%
+  left_join(question_tags, by=c("id"="question_id"))
+
+```
+```{r}
+#1.2
+questions %>%
+  left_join(question_tags, by=c("id"="question_id")) %>%
+  left_join(tags, by=c("tag_id"="id"))
+```
+```{r}
+#1.3
+questions %>%
+  left_join(question_tags, by=c("id"="question_id")) %>%
+  left_join(tags, by=c("tag_id"="id")) %>%
+   mutate_at(c('tag_name'), ~replace_na(.,"only-r"))
+```
+```{r}
+#1.4
+questions_with_tags <- questions %>%
+  left_join(question_tags, by=c("id"="question_id")) %>%
+  left_join(tags, by=c("tag_id"="id")) %>%
+   mutate_at(c('tag_name'), ~replace_na(.,"only-r"))
+```
+
+```{r}
+#2
+questions_with_tags %>%
+  group_by(tag_name) %>%
+  summarise(mean_score = mean(score)) %>%
+  arrange(desc(mean_score))
+```
+```{r}
+#3
+questions %>%
+  inner_join(answers, by = c("id" = "question_id"), suffix = c("_question","_answer"))
+```
+```{r}
+questions %>%
+  inner_join(answers, by = c("id" = "question_id"), suffix = c("_question","_answer")) %>%
+  mutate(gap=creation_date_answer-creation_date_question)
+```
+```{r}
+#4
+answers_counts <- answers %>%
+  count(question_id) %>%
+  arrange(desc(n))
+question_answers_counts <- questions %>%
+   left_join(answers_counts, by=c("id"="question_id"))%>%
+   mutate_at(c('n'), ~replace_na(.,0))
+```
+
+
+```{r}
+#5
+question_tags %>%
+   inner_join(question_answers_counts, by=c("question_id"="id"))%>%
+   inner_join(tags, by=c("tag_id"="id"))
+```
+
